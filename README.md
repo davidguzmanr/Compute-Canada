@@ -14,8 +14,38 @@ module load python/3.10.13
 
 cd path/to/your/project
 pip install virtualenv
-virtualenv AfrincanLLM-env
+virtualenv AfricanLLM-env
+source AfricanLLM-env/bin/activate
+```
+
+# Jobs
+
+## Test a script
+I like to create a "sleeper" job and interact with the job, this is faster and allows to debug easily the Slurm script before submitting it
+```bash
+#!/bin/bash
+#SBATCH --gpus-per-node=v100l:1
+#SBATCH --mem=32G
+#SBATCH --time=24:00:00
+#SBATCH --account=def-annielee
+
+#############################################################
+# install the environment by loading in python and required packages
+module load python/3.10.13
+module load gcc/12.3
+module load cuda/12.2
+module load arrow/17.0.0 
+
 source AfrincanLLM-env/bin/activate
+#############################################################
+
+echo "Job Array ID / Job ID: $SLURM_ARRAY_JOB_ID / $SLURM_JOB_ID"
+sleep 86400
+```
+
+Then run `squeue -u $USER` to get the job ID and interact with the job
+```
+srun --pty --jobid=22057719 nvidia-smi
 ```
 
 # Notes
