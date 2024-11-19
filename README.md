@@ -5,6 +5,12 @@ Documentation related to Compute Canada.
 - **Username:** davidguz
 - **Password:** same as the one from alliancecan.ca
 
+To connect
+```bash
+ssh davidguz@cedar.computecanada.ca
+```
+You can also replace `cedar` for any of the other clusters available, like `beluga`.
+
 # Lee Lab
 - [Compute Canada tutorial - Google Doc](https://docs.google.com/document/d/1Py9W7RDYeuq5m7cnnpeXljHhsgSE9a1JXbQcPEY0nYk/edit?usp=sharing)
 
