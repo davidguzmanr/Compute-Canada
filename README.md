@@ -11,6 +11,9 @@ ssh davidguz@cedar.computecanada.ca
 ```
 You can also replace `cedar` for any of the other clusters available, like `beluga`.
 
+## VS Code
+Use the `Remote Explorer` extension. If for some reason you can't connect anymore try deleting the `~/.vscode-server` folder and connecting again.
+
 # Lee Lab
 - [Compute Canada tutorial - Google Doc](https://docs.google.com/document/d/1Py9W7RDYeuq5m7cnnpeXljHhsgSE9a1JXbQcPEY0nYk/edit?usp=sharing)
 
