@@ -55,6 +55,12 @@ pip install packagename==
 ``` 
 this will throw an error that will give you all the versions available of the package, including the `+computecanada` versions.
 
+## Hugging Face
+GPU nodes usually don't have network access, download the models/datasets first in the landing nodes. Also, landing nodes have a limit in the storage, models need to be stored somewhere in `~/scratch`, change this with (only for the session, you can change permanently this in your `.bashrc` file)
+```bash
+export HF_HOME=~/scratch/huggingface
+```
+
 # Jobs
 
 ## Test a script
