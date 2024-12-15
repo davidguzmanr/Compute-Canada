@@ -6,8 +6,8 @@
 #SBATCH --account=def-annielee
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=david.guzman@mail.utoronto.ca
-#SBATCH --output=afri-mindmerger-pipeline.out
-#SBATCH --error=afri-mindmerger-pipeline.out
+#SBATCH --output=afri-mindmerger-%j.out
+#SBATCH --error=afri-mindmerger-%j.out
 
 #############################################################
 # install the environment by loading in python and required packages
@@ -17,23 +17,56 @@ module load cuda/12.2
 module load arrow/17.0.0 
 
 source AfricanLLM-env/bin/activate
+export HF_HOME=~/scratch/huggingface
 #############################################################
 
 # Redirect all output and errors from this point forward
-exec > afri-mindmerger-pipeline.out 2>&1
+exec > afri-mindmerger-${SLURM_JOB_ID}.out 2>&1
 
 echo "Job Array ID / Job ID: $SLURM_ARRAY_JOB_ID / $SLURM_JOB_ID"
-
-export HF_HOME=~/scratch/huggingface
 echo $HF_HOME
 
-cd MindMerger-AfricanLLM
+cd MindMerger
+git checkout AfriMindMerger
 
 echo "mapping stage"
-## deepspeed run_training_afri.py --deepspeed --llm_path  meta-math/MetaMath-Mistral-7B --mt_path castorini/afriteva_v2_large --stage_name mapping --task math --augmentation False --save_name AfriMindMerger --train_num 9000 --train_batch_size 4 --train_micro_batch_size_per_gpu 4 --epoch_num 1 --max_seq_len 200 --max_gen_len 200 --eval_batch_size 4
+deepspeed run_training.py \
+    --llm_path  meta-math/MetaMath-Mistral-7B \
+    --mt_path facebook/nllb-200-distilled-600M \
+    --stage_name mapping \
+    --task math \
+    --augmentation False \
+    --save_name AfriMindMergerNLLB-3B \
+    --train_num 9000 \
+    --train_batch_size 1 \
+    --train_micro_batch_size_per_gpu 1 \
+    --epoch_num 1 \
+    --max_seq_len 200 \
+    --max_gen_len 200 \
+    --eval_batch_size 1
 
 echo "augmentation stage"
-deepspeed run_training_afri.py --deepspeed --llm_path  meta-math/MetaMath-Mistral-7B --mt_path castorini/afriteva_v2_large --stage_name augmentation --task math --augmentation True --save_name AfriMindMerger  --train_num 3000 --train_batch_size 1 --train_micro_batch_size_per_gpu 1 --epoch_num 1 --max_seq_len 512 --max_gen_len 512 --eval_batch_size 1
+deepspeed run_training.py \
+    --llm_path  meta-math/MetaMath-Mistral-7B \
+    --mt_path facebook/nllb-200-3.3B \
+    --stage_name augmentation \
+    --task math \
+    --augmentation True \
+    --save_name AfriMindMergerNLLB-3B \
+    --train_num 3000 \
+    --train_batch_size 1 \
+    --train_micro_batch_size_per_gpu 1 \
+    --epoch_num 1 \
+    --max_seq_len 512 \
+    --max_gen_len 512 \
+    --eval_batch_size 1
 
 echo "evaluation stage"
-deepspeed run_evaluation.py --deepspeed --task afrimgsm --llm_path meta-math/MetaMath-Mistral-7B --mt_path castorini/afriteva_v2_large --augmentation True     --eval_batch_size 4 --init_checkpoint outputs/AfriMindMerger/math/augmentation/pytorch_model.bin --save_name AfriMindMerger
+deepspeed run_evaluation.py \
+    --task afrimgsm \
+    --llm_path meta-math/MetaMath-Mistral-7B \
+    --mt_path facebook/nllb-200-3.3B \
+    --augmentation True \
+    --eval_batch_size 1 \
+    --init_checkpoint outputs/AfriMindMergerNLLB-3B/math/augmentation/pytorch_model.bin \
+    --save_name AfriMindMergerNLLB-3B
