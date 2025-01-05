@@ -61,7 +61,12 @@ GPU nodes usually don't have network access, download the models/datasets first 
 export HF_HOME=~/scratch/huggingface
 ```
 
-# Jobs
+# Slurm
+
+## Useful commands
+- **Submit a job**: `sbatch script.sh`
+- **Check your own jobs:** `squeue -u $USER`
+- **Cancel a job:** `scancel <job_id>`
 
 ## Test a script
 I like to create a "sleeper" job and interact with the job, this is faster and allows to debug easily the Slurm script before submitting it
