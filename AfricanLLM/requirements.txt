@@ -55,7 +55,7 @@ psutil==5.9.8
 ptyprocess==0.7.0+computecanada
 pure_eval==0.2.2+computecanada
 py_cpuinfo==9.0.0+computecanada
-pyarrow @ file:///tmp/ebuser/avx2/Arrow/17.0.0/gcccorecuda-2023a/arrow/python
+# pyarrow @ file:///tmp/ebuser/avx2/Arrow/17.0.0/gcccorecuda-2023a/arrow/python
 pydantic==2.9.2+computecanada
 pydantic_core==2.23.4+computecanada
 pygments==2.18.0+computecanada
