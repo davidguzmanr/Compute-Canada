@@ -33,6 +33,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/mast
 The easiest thing to do is to create an environment with `virtualenv` in the `path` of your project (I haven't tried Anaconda in Compute Canada if you prefer that option, but so far `virtualenv` works fine)
 ```bash
 module load python/3.10.13
+module load gcc/12.3
 module load arrow/17.0.0 
 
 cd path/to/your/project
