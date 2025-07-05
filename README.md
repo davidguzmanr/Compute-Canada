@@ -33,11 +33,22 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/mast
 The easiest thing to do is to create an environment with `virtualenv` in the `path` of your project (I haven't tried Anaconda in Compute Canada if you prefer that option, but so far `virtualenv` works fine)
 ```bash
 module load python/3.10.13
+module load arrow/17.0.0 
 
 cd path/to/your/project
 pip install virtualenv
 virtualenv AfricanLLM-env
 source AfricanLLM-env/bin/activate
+```
+
+Load the modules before activating the virtual environment, otherwise you might get this
+```
+IMPORTANT: the module must be loaded before activating your virtual environment.
+      
+1. Deactivate your virtual environment : deactivate
+2. Load the Arrow module : module load gcc arrow/x.y.z
+3. Activate your virtual env. : source <env>/bin/activate
+4. And re-run your pip install command.
 ```
 
 ## Packages
