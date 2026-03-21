@@ -30,7 +30,8 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/mast
 ```
 
 # Environments
-The easiest thing to do is to create an environment with `virtualenv` in the `path` of your project (I haven't tried Anaconda in Compute Canada if you prefer that option, but so far `virtualenv` works fine)
+### Virtualenv
+The easiest thing to do is to create an environment with `virtualenv` in the `path` of your project
 ```bash
 module load python/3.10.13
 module load gcc/12.3
@@ -40,6 +41,15 @@ cd path/to/your/project
 pip install virtualenv
 virtualenv AfricanLLM-env
 source AfricanLLM-env/bin/activate
+```
+
+### Conda
+Alternatively, you can use Miniconda
+```bash
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+source ~/miniconda3/bin/activate
+conda create -n F5-TTS python=3.10 -y
 ```
 
 Load the modules before activating the virtual environment, otherwise you might get this
