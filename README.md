@@ -44,6 +44,8 @@ source AfricanLLM-env/bin/activate
 ```
 
 ### Conda
+> **Note:** Conda environments may cause issues with some of the libraries and modules from DRAC. Prefer `virtualenv` unless you specifically need to install something from conda.
+
 Alternatively, you can use Miniconda
 ```bash
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
