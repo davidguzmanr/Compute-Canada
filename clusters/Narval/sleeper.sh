@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=sleeper
 #SBATCH --nodes=1
-#SBATCH --gres=gpu:h100:1
+#SBATCH --gres=gpu:a100:1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=48G
 #SBATCH --time=0-08:00:00
@@ -13,12 +13,10 @@
 ##################################################################
 # Activate the environment by loading Python and required packages
 ##################################################################
-module load python/3.12.4
-module load gcc/12.3
+module load python/3.10.13
+module load StdEnv/2023 scipy-stack/2023b
+module load gcc arrow/23.0.1
 module load cuda/12.2
-module load arrow/17.0.0
-module load rust/1.85.0
-module load mpi4py/4.0.3
 
 source /home/davidguz/scratch/Open-Bible-TTS/CoquiTTS/CoquiTTS-env/bin/activate
 export HF_HOME=~/scratch/huggingface
