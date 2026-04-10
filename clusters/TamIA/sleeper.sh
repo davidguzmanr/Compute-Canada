@@ -19,6 +19,9 @@ module load gcc arrow/23.0.1
 module load cuda/12.2
 
 export HF_HOME=/home/d/davidguz/links/scratch/huggingface
+export HF_DATASETS_OFFLINE=1
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 cd /home/d/davidguz/links/scratch/Repositories/COMP-767-Winter-2026
