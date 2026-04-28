@@ -17,6 +17,7 @@ module load python/3.10.13
 module load StdEnv/2023 scipy-stack/2023b
 module load gcc arrow/23.0.1
 module load cuda/12.2
+module load rust/1.85.0
 
 export HF_HOME=/home/d/davidguz/links/scratch/huggingface
 export HF_DATASETS_OFFLINE=1
