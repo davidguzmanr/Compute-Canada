@@ -2,22 +2,20 @@
 Documentation related to Compute Canada.
 
 # Details
-- **Username:** davidguz
-- **Password:** same as the one from alliancecan.ca
+- **Username:** same as the one from [alliancecan.ca](https://ccdb.alliancecan.ca/security/login)
+- **Password:** same as the one from [alliancecan.ca](https://ccdb.alliancecan.ca/security/login)
 
-To connect
-```bash
-ssh davidguz@narval.computecanada.ca
+To setup everything the easiest is to do it via [milatools](https://github.com/mila-iqia/milatools), start with 
 ```
-You can also replace `narval` for any of the other clusters available, like `cedar`.
+mila init
+```
+to use your account from [alliancecan.ca](https://ccdb.alliancecan.ca/security/login). Then try
 
-## Lee Lab
-Here are the instructions to setup your Compute Canada account for the LeeLab
-- [Compute Canada tutorial - Google Doc](https://docs.google.com/document/d/1Py9W7RDYeuq5m7cnnpeXljHhsgSE9a1JXbQcPEY0nYk/edit?usp=sharing)
-- [Compute Canada tutorial - video](https://drive.google.com/drive/folders/1tV4EV8taVD1LiERpXXQ1gDc6a-My-ikj)
+```bash
+ssh -vv tamia
+```
 
 ## Hardware
-Only Narval has A100 GPUs. If you want to run smaller experiments consider switching to other cluster.
 - [Available GPUs](https://docs.alliancecan.ca/wiki/Using_GPUs_with_Slurm/en#Available_GPUs)
 
 ## VS Code
@@ -87,48 +85,18 @@ export HF_HOME=~/scratch/huggingface
 
 # Slurm
 
-## Useful commands
-- **Submit a job**: `sbatch script.sh`
-- **Check your own jobs:** `squeue -u $USER`
-- **Cancel a job:** `scancel <job_id>`
-
-## Test a script
-I like to create a "sleeper" job and interact with the job, this is faster and allows to debug easily the Slurm script before submitting it
-```bash
-#!/bin/bash
-#SBATCH --gpus-per-node=a100:1
-#SBATCH --cpus-per-task=4
-#SBATCH --mem=40G
-#SBATCH --time=24:00:00
-#SBATCH --account=def-annielee
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=david.guzman@mail.utoronto.ca
-#SBATCH --output=sleeper_%j.out
-#SBATCH --error=sleeper_%j.out
-
-#############################################################
-# install the environment by loading in python and required packages
-module load python/3.10.13
-module load gcc/12.3
-module load cuda/12.2
-module load arrow/17.0.0 
-
-source AfricanLLM-env/bin/activate
-#############################################################
-# Redirect all output and errors from this point forward
-exec > sleeper_${SLURM_JOB_ID}.out 2>&1
-
-echo "Job Array ID / Job ID: $SLURM_ARRAY_JOB_ID / $SLURM_JOB_ID"
-
-export HF_HOME=~/scratch/huggingface
-echo $HF_HOME
-
-sleep 1d
+## Interactive jobs
+You can use `milatools` as well
 ```
-
-Then run `squeue -u $USER` to get the job ID and interact with the job, for instance:
+mila code . --command code --cluster=tamia --alloc --gres=gpu:h100:4 --mem=256G --cpus-per-task=16 --time=4:00:00
+```
+If you have a job already running you can connect directly via its `jobid` (run `squeue -u $USER`)
+```
+mila code . --command code --cluster=tamia --job <jobid>
+```
+You can also interact with it like this in the login node
 ```bash
 # Run whatever command you want in the compute node with srun
-srun --pty --jobid=22057719 nvidia-smi
-srun --pty --jobid=22057719 python train.py
+srun --pty --jobid=<jobid> nvidia-smi
+srun --pty --jobid=<jobid> python train.py
 ```

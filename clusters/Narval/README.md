@@ -1,5 +1,5 @@
 # Narval
-So there seems to be an issue with `datasets` and `Arrow` in Nibi, and quite annoying to solve, see this [thread](https://mila-umontreal.slack.com/archives/C2TL9FRBP/p1764460644840529?thread_ts=1763053658.126349&cid=C2TL9FRBP).
+So there seems to be an issue with `datasets` and `Arrow` in Narval, and quite annoying to solve, see this [thread](https://mila-umontreal.slack.com/archives/C2TL9FRBP/p1764460644840529?thread_ts=1763053658.126349&cid=C2TL9FRBP).
 
 The solution for me is that install `pyarrow` manually, for example (21.0.0):
 
